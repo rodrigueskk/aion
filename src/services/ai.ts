@@ -4,8 +4,9 @@ let ai: GoogleGenAI | null = null;
 
 function getAI(): GoogleGenAI {
   if (!ai) {
-    // Na Vercel com Vite, usamos import.meta.env
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    // Puxa das duas formas possíveis e limpa espaços ou aspas acidentais da Vercel
+    const rawKey = import.meta.env.VITE_GEMINI_API_KEY || (window as any).process?.env?.GEMINI_API_KEY;
+    const apiKey = rawKey ? rawKey.replace(/['"]/g, '').trim() : undefined;
     
     if (!apiKey) {
       throw new Error("Erro interno de API, tente conversar comigo mais tarde.");
