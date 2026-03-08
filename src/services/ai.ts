@@ -6,7 +6,7 @@ function getAI(): GoogleGenAI {
   if (!ai) {
     const apiKey = process.env.VITE_GEMINI_API_KEY;
     if (!apiKey) {
-      throw new Error("A chave da API do Gemini não está configurada. Por favor, adicione a variável de ambiente GEMINI_API_KEY na Netlify.");
+      throw new Error("A chave da API do Gemini não está configurada. Por favor, adicione a variável de ambiente VITE_GEMINI_API_KEY na Netlify.");
     }
     ai = new GoogleGenAI({ apiKey });
   }
