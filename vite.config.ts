@@ -12,8 +12,7 @@ export default defineConfig({
     },
   },
   server: {
-    // Mantém a compatibilidade com o AI Studio
+    // Mantém compatibilidade com o ambiente do AI Studio
     hmr: process.env.DISABLE_HMR !== 'true',
   },
-  // Removemos o bloco "define" manual para usar o padrão do Vite (VITE_)
 });
