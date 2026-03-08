@@ -1,0 +1,349 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Boldonse&display=swap");
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@font-face {
+  font-family: "PPSupplyMono";
+  src: url("https://assets.codepen.io/7558/PPSupplyMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --bg-base: #000000;
+  --bg-panel: #050505;
+  --bg-surface: #111111;
+  --bg-input: #0a0a0a;
+  --text-base: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --border-subtle: rgba(255,255,255,0.05);
+  --border-strong: rgba(255,255,255,0.1);
+  --color-sec: #22c55e;
+}
+
+.theme-light {
+  --bg-base: #f4f4f5;
+  --bg-panel: #e4e4e7;
+  --bg-surface: #ffffff;
+  --bg-input: #ffffff;
+  --text-base: #18181b;
+  --text-muted: #71717a;
+  --border-subtle: rgba(0,0,0,0.05);
+  --border-strong: rgba(0,0,0,0.1);
+}
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.3);
+    border-radius: 20px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(128, 128, 128, 0.5);
+  }
+
+  body {
+    user-select: none;
+  }
+
+  .message-content {
+    user-select: text;
+  }
+
+  ::selection {
+    background-color: var(--selection-color);
+    color: white;
+  }
+
+  .broxa-title {
+    font-family: 'Boldonse', sans-serif;
+    background: linear-gradient(90deg, var(--text-base) 0%, var(--text-base) 40%, var(--color-sec) 50%, var(--text-base) 60%, var(--text-base) 100%);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shine 3s linear infinite;
+  }
+
+  @keyframes shine {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+    20%, 40%, 60%, 80% { transform: translateX(4px); }
+  }
+
+  .animate-shake {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  }
+
+  .highlight-strong-no-effect strong {
+    color: var(--color-sec) !important;
+    font-weight: 800 !important;
+  }
+
+  /* Preloader Styles */
+  .preloader-bg {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+  }
+
+  .ghost-svg {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+    animation: ghostFloat 3s ease-in-out infinite;
+  }
+
+  .ghost-body {
+    fill: white;
+    opacity: 0.9;
+  }
+
+  .ghost-eye {
+    fill: black;
+    animation: eyePulse 2s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .left-eye { animation-delay: 0s; }
+  .right-eye { animation-delay: 0.1s; }
+
+  @keyframes ghostFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @keyframes eyePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+  }
+
+  .loading-text-anim {
+    font-family: "PPSupplyMono", monospace;
+    animation: textPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes textPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.1; }
+  }
+
+  .quote-font {
+    font-family: "Boldonse", system-ui;
+    letter-spacing: -0.02em;
+  }
+
+  .jumping-dots {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .jumping-dots span {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-sec);
+    border-radius: 50%;
+    animation: jump 1.4s infinite ease-in-out both;
+  }
+  .jumping-dots span:nth-child(1) { animation-delay: -0.32s; }
+  .jumping-dots span:nth-child(2) { animation-delay: -0.16s; }
+  
+  @keyframes jump {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
+
+  /* From Uiverse.io by pharmacist-sabot */ 
+  /* ===== Wrapper Radio Group ===== */
+  .radio-group {
+    background: var(--bg-surface);
+    border: 2px solid var(--border-strong);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    max-width: 15rem;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    box-shadow: 4px 4px 0 var(--border-strong);
+    font-family: "Inter", Arial, sans-serif;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  /* Add subtle hover effect for the whole group */
+  .radio-group:hover {
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 0 var(--border-strong);
+  }
+
+  /* Paper texture effect */
+  .radio-group::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(128, 128, 128, 0.05) 0px,
+      rgba(128, 128, 128, 0.05) 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+    opacity: 0.25;
+  }
+
+  /* ===== Each Radio ===== */
+  .radio {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    position: relative;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  /* Add background highlight on hover */
+  .radio:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+    transform: translateX(2px);
+  }
+
+  .radio input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Hand-drawn styled circle */
+  .radio-visual {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    border: 2px solid var(--text-base);
+    background: var(--bg-input);
+    box-shadow:
+      inset -2px -2px 0 var(--border-strong),
+      2px 2px 0 var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      transform 0.25s ease,
+      background-color 0.2s ease;
+  }
+
+  /* Add rotation on hover for fun */
+  .radio:hover .radio-visual {
+    transform: rotate(5deg);
+  }
+
+  /* The dot inside */
+  .radio-dot {
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    background: var(--color-sec);
+    transform: scale(0);
+    transition: transform 0.2s ease-out;
+    box-shadow:
+      inset 1px 1px 0 rgba(0,0,0,0.5),
+      2px 2px 0 rgba(0,0,0,0.5);
+  }
+
+  .radio input:checked + .radio-visual .radio-dot {
+    transform: scale(1);
+    animation: bounce 0.4s ease-out;
+  }
+
+  /* bounce effect */
+  @keyframes bounce {
+    0% {
+      transform: scale(0.3);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* Change visual when checked */
+  .radio input:checked + .radio-visual {
+    background: var(--bg-surface);
+    border-color: var(--color-sec);
+    box-shadow:
+      inset -2px -2px 0 var(--color-sec),
+      2px 2px 0 var(--border-strong);
+  }
+
+  /* Hover jitter like hand-drawn */
+  .radio:hover .radio-label {
+    animation: jitter 0.3s infinite alternate;
+    color: var(--color-sec);
+  }
+
+  @keyframes jitter {
+    from {
+      transform: rotate(-1deg) translateX(-1px);
+    }
+    to {
+      transform: rotate(1deg) translateX(1px);
+    }
+  }
+
+  /* Add a subtle glow to labels */
+  .radio-label {
+    transition:
+      color 0.2s ease,
+      text-shadow 0.2s ease;
+  }
+
+  .radio input:checked ~ .radio-label {
+    color: var(--color-sec);
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+  }
+
+  /* Retro scanline effect on the group */
+  .radio-group::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(128, 128, 128, 0.03) 2px,
+      rgba(128, 128, 128, 0.03) 3px
+    );
+    pointer-events: none;
+    animation: scanline 2s linear infinite;
+  }
+
+  @keyframes scanline {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-3px);
+    }
+  }
+}
