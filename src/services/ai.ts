@@ -2,24 +2,18 @@ import { GoogleGenAI } from "@google/genai";
 
 let ai: GoogleGenAI | null = null;
 
-import { GoogleGenAI } from "@google/genai";
-
-let ai: GoogleGenAI | null = null;
-
 function getAI(): GoogleGenAI {
   if (!ai) {
-    // Agora o código busca o nome correto (VITE_) e funciona no navegador
+    // ALTERAÇÃO: Mudança para ler do Vite (import.meta.env)
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY || (window as any).process?.env?.GEMINI_API_KEY;
     
     if (!apiKey) {
-      throw new Error("A chave da API do Gemini não foi encontrada. Verifique se configurou VITE_GEMINI_API_KEY na Netlify.");
+      throw new Error("A chave da API do Gemini não está configurada. Por favor, adicione a variável de ambiente VITE_GEMINI_API_KEY na Netlify.");
     }
     ai = new GoogleGenAI({ apiKey });
   }
   return ai;
 }
-
-// O resto do arquivo (generateTitle, generateResponse) continua igual...
 
 export async function generateTitle(prompt: string): Promise<string> {
   const aiClient = getAI();
