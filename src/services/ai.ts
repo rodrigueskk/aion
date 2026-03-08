@@ -4,11 +4,11 @@ let ai: GoogleGenAI | null = null;
 
 function getAI(): GoogleGenAI {
   if (!ai) {
-    // Busca a chave no formato do Vite (VITE_) ou do Process
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || (window as any).process?.env?.GEMINI_API_KEY;
+    // Na Vercel com Vite, usamos import.meta.env
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
     
     if (!apiKey) {
-      throw new Error("ERRO TÉCNICO: A chave VITE_GEMINI_API_KEY não foi encontrada no painel da Netlify/Vercel.");
+      throw new Error("Erro interno de API, tente conversar comigo mais tarde.");
     }
     ai = new GoogleGenAI({ apiKey });
   }
@@ -68,7 +68,7 @@ export async function generateResponse(prompt: string, imageBase64?: string, mim
     });
 
     if (!response.text) {
-      throw new Error("O Google retornou uma resposta vazia. Pode ser limite de cota da API.");
+      throw new Error("Limite da cota da API ATINGIDO, se você é um usuário comum não se preocupe, isso é problema interno.");
     }
 
     return response.text;
@@ -78,15 +78,15 @@ export async function generateResponse(prompt: string, imageBase64?: string, mim
     
     // MENSAGENS DE ERRO ESPECÍFICAS:
     if (error.message?.includes("429")) {
-      return " ERRO: Limite de mensagens excedido (Cota da API). Tente novamente em um minuto.";
+      return " LMDAPI ATINGIDO. Se você é um usuário não se preocupe, isso é um problema interno.";
     }
     if (error.message?.includes("403") || error.message?.includes("API key")) {
-      return " ERRO: Chave de API inválida ou bloqueada. Verifique as configurações na Netlify/Vercel.";
+      return "APIKEY FALSE/BLOCKED. Se você é um usuário não se preocupe, isso é um problema interno";
     }
     if (error.message?.includes("model not found") || error.message?.includes("404")) {
-      return ` ERRO: O modelo '${modelType}' não foi encontrado. O Google pode ter mudado o nome da versão preview.`;
+      return `'${modelType}' NÃO ENCONTRADO (OBS: GOOGLE PODE TER MUDADO NOME DA PREVIEW). Isto é um problema interno que estamos tentando resolver, não se preocupe.`;
     }
     
-    return ` Desculpe, a BROXA AI teve um problema: ${error.message || "Erro desconhecido"}`;
+    return ` Ops, ocorreu um problema interno ${error.message || "Erro desconhecido"}`;
   }
 }
